@@ -102,3 +102,94 @@ for row, index in L3Average.iterrows():
         jsonPayload = json.dumps(payload)
         response = requests.post(url, data=jsonPayload)
 
+
+
+L1MaxVoltage = pd.concat([dateData['Date'], L1data.iloc[:,0:2]], axis=1, ignore_index=False)
+L1MaxAmp = pd.concat([dateData['Date'], L1data.iloc[:,3:5]], axis=1, ignore_index=False)
+L1MaxKW = pd.concat([dateData['Date'], L1data.iloc[:,7:9]], axis=1, ignore_index=False)
+
+maxVectorPhase1 = [L1MaxVoltage, L1MaxAmp, L1MaxKW]
+
+for item in maxVectorPhase1:
+    currentMetric = item.columns.values[1]
+
+    for row, index in item.iterrows():
+        date = index['Date']
+        time = index['Max.Time']
+
+        datetime_str = str(date) + ' ' + str(time)
+        datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
+        unixTime = str(mktime(datetime_object.timetuple()))[:-2]
+            
+        payload = {}
+        payload['metric'] = 'L1.' + str(currentMetric)
+        payload['timestamp'] = str(unixTime)
+        payload['value'] = str(index[currentMetric])
+        tags = {}
+        tags['Measurement'] = str(currentMetric)
+        payload['tags'] = tags
+
+        url = 'http://146.141.16.82:4242/api/put?summary'
+        jsonPayload = json.dumps(payload)
+        response = requests.post(url, data=jsonPayload)
+
+
+L2MaxVoltage = pd.concat([dateData['Date'], L2data.iloc[:,0:2]], axis=1, ignore_index=False)
+L2MaxAmp = pd.concat([dateData['Date'], L2data.iloc[:,3:5]], axis=1, ignore_index=False)
+L2MaxKW = pd.concat([dateData['Date'], L2data.iloc[:,7:9]], axis=1, ignore_index=False)
+
+maxVectorPhase2 = [L2MaxVoltage, L2MaxAmp, L2MaxKW]
+
+for item in maxVectorPhase2:
+    currentMetric = item.columns.values[1]
+
+    for row, index in item.iterrows():
+        date = index['Date']
+        time = index['Max.Time']
+
+        datetime_str = str(date) + ' ' + str(time)
+        datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
+        unixTime = str(mktime(datetime_object.timetuple()))[:-2]
+            
+        payload = {}
+        payload['metric'] = 'L2.' + str(currentMetric)
+        payload['timestamp'] = str(unixTime)
+        payload['value'] = str(index[currentMetric])
+        tags = {}
+        tags['Measurement'] = str(currentMetric)
+        payload['tags'] = tags
+
+        url = 'http://146.141.16.82:4242/api/put?summary'
+        jsonPayload = json.dumps(payload)
+        response = requests.post(url, data=jsonPayload)
+
+L3MaxVoltage = pd.concat([dateData['Date'], L3data.iloc[:,0:2]], axis=1, ignore_index=False)
+L3MaxAmp = pd.concat([dateData['Date'], L3data.iloc[:,3:5]], axis=1, ignore_index=False)
+L3MaxKW = pd.concat([dateData['Date'], L3data.iloc[:,7:9]], axis=1, ignore_index=False)
+
+maxVectorPhase3 = [L3MaxVoltage, L3MaxAmp, L3MaxKW]
+
+for item in maxVectorPhase3:
+    currentMetric = item.columns.values[1]
+
+    for row, index in item.iterrows():
+        date = index['Date']
+        time = index['Max.Time']
+
+        datetime_str = str(date) + ' ' + str(time)
+        datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
+        unixTime = str(mktime(datetime_object.timetuple()))[:-2]
+            
+        payload = {}
+        payload['metric'] = 'L3.' + str(currentMetric)
+        payload['timestamp'] = str(unixTime)
+        payload['value'] = str(index[currentMetric])
+        tags = {}
+        tags['Measurement'] = str(currentMetric)
+        payload['tags'] = tags
+
+        url = 'http://146.141.16.82:4242/api/put?summary'
+        jsonPayload = json.dumps(payload)
+        response = requests.post(url, data=jsonPayload)
+
+
