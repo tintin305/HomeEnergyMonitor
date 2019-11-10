@@ -65,7 +65,12 @@ def importAverageParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
 
     for row, index in L2Average.iterrows():
@@ -90,7 +95,12 @@ def importAverageParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
 
 
@@ -116,7 +126,12 @@ def importAverageParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+            
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
     return None
 
@@ -156,7 +171,12 @@ def importMinimumParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
 
     L2MinVoltage = pd.concat([dateData['Date'], L2data.iloc[:,0:2]], axis=1, ignore_index=False)
@@ -192,7 +212,12 @@ def importMinimumParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
     L3MinVoltage = pd.concat([dateData['Date'], L3data.iloc[:,0:2]], axis=1, ignore_index=False)
     L3MinAmp = pd.concat([dateData['Date'], L3data.iloc[:,6:8]], axis=1, ignore_index=False)
@@ -227,7 +252,12 @@ def importMinimumParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
 
     return None
@@ -268,7 +298,12 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
 
     L2MaxVoltage = pd.concat([dateData['Date'], L2data.iloc[:,2:4]], axis=1, ignore_index=False)
@@ -304,7 +339,12 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
     L3MaxVoltage = pd.concat([dateData['Date'], L3data.iloc[:,2:4]], axis=1, ignore_index=False)
     L3MaxAmp = pd.concat([dateData['Date'], L3data.iloc[:,8:10]], axis=1, ignore_index=False)
@@ -339,7 +379,12 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
 
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
-            response = requests.post(url, data=jsonPayload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
 
 
 
