@@ -358,7 +358,7 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
     L3MaxPF = pd.concat([dateData['Date'], L3data.iloc[:,25:27]], axis=1, ignore_index=False)
     L3MaxKVAR = pd.concat([dateData['Date'], L3data.iloc[:,31:33]], axis=1, ignore_index=False)
 
-    maxVectorPhase2 = [L3MaxVoltage, L3MaxAmp, L3MaxKW, L3MaxKVA, L3MaxPF, L3MaxKVAR]
+    maxVectorPhase3 = [L3MaxVoltage, L3MaxAmp, L3MaxKW, L3MaxKVA, L3MaxPF, L3MaxKVAR]
 
     for item in maxVectorPhase3:
         currentMetric = item.columns.values[1]
