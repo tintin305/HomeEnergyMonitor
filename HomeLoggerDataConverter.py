@@ -166,7 +166,7 @@ def importMinimumParams(L1data, L2data, L3data, dateData):
     L2MinPF = pd.concat([dateData['Date'], L2data.iloc[:,23:25]], axis=1, ignore_index=False)
     L2MinKVAR = pd.concat([dateData['Date'], L2data.iloc[:,29:31]], axis=1, ignore_index=False)
 
-    minVectorPhase1 = [L2MinVoltage, L2MinAmp, L2MinKW, L2MinKVA, L2MinPF, L2MinKVAR]
+    minVectorPhase2 = [L2MinVoltage, L2MinAmp, L2MinKW, L2MinKVA, L2MinPF, L2MinKVAR]
 
     for item in minVectorPhase2:
         currentMetric = item.columns.values[1]
@@ -201,7 +201,7 @@ def importMinimumParams(L1data, L2data, L3data, dateData):
     L3MinPF = pd.concat([dateData['Date'], L3data.iloc[:,23:25]], axis=1, ignore_index=False)
     L3MinKVAR = pd.concat([dateData['Date'], L3data.iloc[:,29:31]], axis=1, ignore_index=False)
 
-    minVectorPhase1 = [L3MinVoltage, L3MinAmp, L3MinKW, L3MinKVA, L3MinPF, L3MinKVAR]
+    minVectorPhase3 = [L3MinVoltage, L3MinAmp, L3MinKW, L3MinKVA, L3MinPF, L3MinKVAR]
 
     for item in minVectorPhase3:
         currentMetric = item.columns.values[1]
