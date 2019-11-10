@@ -66,6 +66,11 @@ def importAverageParams(L1data, L2data, L3data, dateData):
             url = 'http://146.141.16.82:4242/api/put?summary'
             jsonPayload = json.dumps(payload)
 
+# New requests method:
+# https://stackoverflow.com/questions/30943866/requests-cannot-assign-requested-address-out-of-ports
+# https://stackoverflow.com/questions/11190595/repeated-post-request-is-causing-error-socket-error-99-cannot-assign-reques?rq=1
+# https://stackoverflow.com/questions/11981933/python-urllib2-cannot-assign-requested-address?lq=1
+
             headers = {
                 'Connection': 'close'
             }
