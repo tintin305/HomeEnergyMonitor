@@ -7,16 +7,21 @@ import datetime
 from time import mktime
 import json
 import pytz
+import os
+import glob
+import shutil
 
-def importMainData():
+def importMainData(fileName):
+
+
     L1Cols = list(range(3,37))
     L2Cols = list(range(37,71))
     L3Cols = list(range(71,105))
 
     header = ['Min.Volt','Min.Time','Max.Volt','Max.Time','Avg.Volt','AmpHours','Min.Amp','Min.Time','Max.Amp','Max.Time','Avg.Amp','KWHours','Min.KW','Min.Time','Max.KW','Max.Time','Avg.KW','KVAHours','Min.KVA','Min.Time','Max.KVA','Max.Time','Avg.KVA','Min.PF','Min.Time','Max.PF','Max.Time','Avg.PF','KVARHours','Min.KVAR','Min.Time','Max.KVAR','Max.Time','Avg.KVAR']
-    L1data = pd.read_csv('HomeLoggerData.csv', skiprows=10, usecols=L1Cols)
-    L2data = pd.read_csv('HomeLoggerData.csv', skiprows=10, usecols=L2Cols)
-    L3data = pd.read_csv('HomeLoggerData.csv', skiprows=10, usecols=L3Cols)
+    L1data = pd.read_csv(fileName, skiprows=10, usecols=L1Cols)
+    L2data = pd.read_csv(fileName, skiprows=10, usecols=L2Cols)
+    L3data = pd.read_csv(fileName, skiprows=10, usecols=L3Cols)
 
     # Renaming the columns for the headers, otherwise it introduces numbers as the original has duplicate column names.
     L1data.columns = header
@@ -25,7 +30,7 @@ def importMainData():
 
 
     dateCols = list(range(0,3))
-    dateData = pd.read_csv('HomeLoggerData.csv', skiprows=10, usecols=dateCols)
+    dateData = pd.read_csv(fileName, skiprows=10, usecols=dateCols)
     dateData.columns = ['Number', 'Date', 'End Time']
 
     return L1data, L2data, L3data, dateData
@@ -392,13 +397,39 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
                 response = session.post(url, data=jsonPayload, headers=headers)
 
 
+def archive(fileName):
+
+    time = datetime.datetime.now()
 
 
-L1data, L2data, L3data, dateData = importMainData()
+    shutil.move(fileName, ('OldData/' + fileName))
 
-importAverageParams(L1data, L2data, L3data, dateData)
 
-importMinimumParams(L1data, L2data, L3data, dateData)
 
-importMaximumParams(L1data, L2data, L3data, dateData)
+    return None
 
+def findcsvFilenames( path_to_dir, suffix=".csv" ):
+
+    filenames = os.listdir(path_to_dir)
+
+    return [ filename for filename in filenames if filename.endswith( suffix ) ]
+
+def loopFiles():
+
+    fileNames = findcsvFilenames(os.getcwd())
+
+    for fileName in fileNames:
+
+        L1data, L2data, L3data, dateData = importMainData(fileName)
+
+        importAverageParams(L1data, L2data, L3data, dateData)
+
+        importMinimumParams(L1data, L2data, L3data, dateData)
+
+        importMaximumParams(L1data, L2data, L3data, dateData)
+
+        archive(fileName)
+
+    return None
+
+loopFiles()
