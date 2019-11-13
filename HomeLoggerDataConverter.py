@@ -401,10 +401,8 @@ def archive(fileName):
 
     time = datetime.datetime.now()
 
-
-    shutil.move(fileName, ('OldData/' + fileName))
-
-
+    datedFilename = fileName[:-4] + '-ConvertedDate-' + str(time) + '.csv'
+    shutil.move(fileName, ('OldData/' + datedFilename))
 
     return None
 
