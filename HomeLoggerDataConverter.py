@@ -56,6 +56,8 @@ def importAverageParams(L1data, L2data, L3data, dateData):
         datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
         localTime = localTimezone.localize(datetime_object, is_dst=None)
         utcTime = localTime.astimezone(pytz.utc)
+        # Shift by four hours.
+        utcTime = utcTime + datetime.timedelta(hours=4)
         unixTime = str(mktime(utcTime.timetuple()))[:-2]
 
 
@@ -92,6 +94,8 @@ def importAverageParams(L1data, L2data, L3data, dateData):
         datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
         localTime = localTimezone.localize(datetime_object, is_dst=None)
         utcTime = localTime.astimezone(pytz.utc)
+        # Shift by four hours.
+        utcTime = utcTime + datetime.timedelta(hours=4)
         unixTime = str(mktime(utcTime.timetuple()))[:-2]
         
         for item in averageParameters:
@@ -123,6 +127,8 @@ def importAverageParams(L1data, L2data, L3data, dateData):
         datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
         localTime = localTimezone.localize(datetime_object, is_dst=None)
         utcTime = localTime.astimezone(pytz.utc)
+        # Shift by four hours.
+        utcTime = utcTime + datetime.timedelta(hours=4)
         unixTime = str(mktime(utcTime.timetuple()))[:-2]
         
         for item in averageParameters:
@@ -169,6 +175,8 @@ def importMinimumParams(L1data, L2data, L3data, dateData):
             datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
             localTime = localTimezone.localize(datetime_object, is_dst=None)
             utcTime = localTime.astimezone(pytz.utc)
+            # Shift by four hours.
+            utcTime = utcTime + datetime.timedelta(hours=4)
             unixTime = str(mktime(utcTime.timetuple()))[:-2]
                 
             payload = {}
@@ -210,6 +218,8 @@ def importMinimumParams(L1data, L2data, L3data, dateData):
             datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
             localTime = localTimezone.localize(datetime_object, is_dst=None)
             utcTime = localTime.astimezone(pytz.utc)
+            # Shift by four hours.
+            utcTime = utcTime + datetime.timedelta(hours=4)
             unixTime = str(mktime(utcTime.timetuple()))[:-2]
 
             payload = {}
@@ -250,6 +260,8 @@ def importMinimumParams(L1data, L2data, L3data, dateData):
             datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
             localTime = localTimezone.localize(datetime_object, is_dst=None)
             utcTime = localTime.astimezone(pytz.utc)
+            # Shift by four hours.
+            utcTime = utcTime + datetime.timedelta(hours=4)
             unixTime = str(mktime(utcTime.timetuple()))[:-2]
                 
             payload = {}
@@ -296,6 +308,8 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
             datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
             localTime = localTimezone.localize(datetime_object, is_dst=None)
             utcTime = localTime.astimezone(pytz.utc)
+            # Shift by four hours.
+            utcTime = utcTime + datetime.timedelta(hours=4)
             unixTime = str(mktime(utcTime.timetuple()))[:-2]
                 
             payload = {}
@@ -337,6 +351,8 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
             datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
             localTime = localTimezone.localize(datetime_object, is_dst=None)
             utcTime = localTime.astimezone(pytz.utc)
+            # Shift by four hours.
+            utcTime = utcTime + datetime.timedelta(hours=4)
             unixTime = str(mktime(utcTime.timetuple()))[:-2]
                 
             payload = {}
@@ -377,6 +393,8 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
             datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
             localTime = localTimezone.localize(datetime_object, is_dst=None)
             utcTime = localTime.astimezone(pytz.utc)
+            # Shift by four hours.
+            utcTime = utcTime + datetime.timedelta(hours=4)
             unixTime = str(mktime(utcTime.timetuple()))[:-2]
                 
             payload = {}
