@@ -414,6 +414,124 @@ def importMaximumParams(L1data, L2data, L3data, dateData):
             with requests.Session() as session:
                 response = session.post(url, data=jsonPayload, headers=headers)
 
+    return None
+
+
+
+def importKWHours(L1data, L2data, L3data, dateData):
+
+    KWHoursParams = ['KWHours']
+
+    L1KWHours = pd.concat([dateData, L1data[KWHoursParams]], axis=1, ignore_index=False)
+    L2KWHours = pd.concat([dateData, L2data[KWHoursParams]], axis=1, ignore_index=False)
+    L2KWHours = pd.concat([dateData, L3data[KWHoursParams]], axis=1, ignore_index=False)
+
+    for row, index in L1KWHours.iterrows():
+        date = index['Date']
+        time = index['End Time']
+
+        # Doing the timezone conversion, as the final mktime timetuple needs a UTC time (https://stackoverflow.com/questions/79797/how-to-convert-local-time-string-to-utc).
+        localTimezone = pytz.timezone('Africa/Johannesburg')
+        datetime_str = str(date) + ' ' + str(time)
+        datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
+        localTime = localTimezone.localize(datetime_object, is_dst=None)
+        utcTime = localTime.astimezone(pytz.utc)
+        # Shift by four hours.
+        utcTime = utcTime + datetime.timedelta(hours=4)
+        unixTime = str(mktime(utcTime.timetuple()))[:-2]
+
+
+        for item in KWHoursParams:
+            payload = {}
+            payload['metric'] = 'L1.' + str(item)
+            payload['timestamp'] = str(unixTime)
+            payload['value'] = str(index[item])
+            tags = {}
+            tags['Measurement'] = str(item)
+            payload['tags'] = tags
+
+            url = 'http://146.141.16.82:4242/api/put?summary'
+            jsonPayload = json.dumps(payload)
+
+# New requests method:
+# https://stackoverflow.com/questions/30943866/requests-cannot-assign-requested-address-out-of-ports
+# https://stackoverflow.com/questions/11190595/repeated-post-request-is-causing-error-socket-error-99-cannot-assign-reques?rq=1
+# https://stackoverflow.com/questions/11981933/python-urllib2-cannot-assign-requested-address?lq=1
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
+
+
+    for row, index in L2KWHours.iterrows():
+        date = index['Date']
+        time = index['End Time']
+
+        localTimezone = pytz.timezone('Africa/Johannesburg')
+        datetime_str = str(date) + ' ' + str(time)
+        datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
+        localTime = localTimezone.localize(datetime_object, is_dst=None)
+        utcTime = localTime.astimezone(pytz.utc)
+        # Shift by four hours.
+        utcTime = utcTime + datetime.timedelta(hours=4)
+        unixTime = str(mktime(utcTime.timetuple()))[:-2]
+        
+        for item in KWHoursParams:
+            payload = {}
+            payload['metric'] = 'L2.' + str(item)
+            payload['timestamp'] = str(unixTime)
+            payload['value'] = str(index[item])
+            tags = {}
+            tags['Measurement'] = str(item)
+            payload['tags'] = tags
+
+            url = 'http://146.141.16.82:4242/api/put?summary'
+            jsonPayload = json.dumps(payload)
+
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
+
+
+
+    for row, index in L2KWHours.iterrows():
+        date = index['Date']
+        time = index['End Time']
+
+        localTimezone = pytz.timezone('Africa/Johannesburg')
+        datetime_str = str(date) + ' ' + str(time)
+        datetime_object = datetime.datetime.strptime(datetime_str, '%m/%d/%y %H:%M:%S')
+        localTime = localTimezone.localize(datetime_object, is_dst=None)
+        utcTime = localTime.astimezone(pytz.utc)
+        # Shift by four hours.
+        utcTime = utcTime + datetime.timedelta(hours=4)
+        unixTime = str(mktime(utcTime.timetuple()))[:-2]
+        
+        for item in KWHoursParams:
+            payload = {}
+            payload['metric'] = 'L3.' + str(item)
+            payload['timestamp'] = str(unixTime)
+            payload['value'] = str(index[item])
+            tags = {}
+            tags['Measurement'] = str(item)
+            payload['tags'] = tags
+
+            url = 'http://146.141.16.82:4242/api/put?summary'
+            jsonPayload = json.dumps(payload)
+            
+            headers = {
+                'Connection': 'close'
+            }
+            with requests.Session() as session:
+                response = session.post(url, data=jsonPayload, headers=headers)
+
+
+    return None
+
 
 def archive(fileName):
 
@@ -443,6 +561,8 @@ def loopFiles():
         importMinimumParams(L1data, L2data, L3data, dateData)
 
         importMaximumParams(L1data, L2data, L3data, dateData)
+
+        importKWHours(L1data, L2data, L3data, dateData)
 
         archive(fileName)
 
