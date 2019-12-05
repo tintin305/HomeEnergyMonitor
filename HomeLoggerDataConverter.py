@@ -23,6 +23,8 @@ def importMainData(fileName):
     L2data = pd.read_csv(fileName, skiprows=10, usecols=L2Cols)
     L3data = pd.read_csv(fileName, skiprows=10, usecols=L3Cols)
 
+    allData = pd.read_csv(fileName, skiprows=10)
+
     # Renaming the columns for the headers, otherwise it introduces numbers as the original has duplicate column names.
     L1data.columns = header
     L2data.columns = header
@@ -33,7 +35,7 @@ def importMainData(fileName):
     dateData = pd.read_csv(fileName, skiprows=10, usecols=dateCols)
     dateData.columns = ['Number', 'Date', 'End Time']
 
-    return L1data, L2data, L3data, dateData
+    return L1data, L2data, L3data, dateData, allData
 
 
 def importAverageParams(L1data, L2data, L3data, dateData):
@@ -533,42 +535,24 @@ def importKWHours(L1data, L2data, L3data, dateData):
     return None
 
 
-def archive(fileName, L1data, L2data, L3data, dateData):
+def archive(fileName, allData):
 
     time = datetime.datetime.now()
 
     datedFilename = fileName[:-4] + '-ConvertedDate-' + str(time) + '.csv'
     shutil.move(fileName, ('OldData/' + datedFilename))
 
+    # This creates a master CSV file with all of the data.
 
-    # This saves each phase as it's own separate csv file.
-    L1Data = pd.concat([dateData, L1data], axis=1, ignore_index=False)
-    L2Data = pd.concat([dateData, L2data], axis=1, ignore_index=False)
-    L3Data = pd.concat([dateData, L3data], axis=1, ignore_index=False)
+    allDataFileName = 'Stitched/AllData.csv'
 
-    L1FileName = 'StitchedData/L1.csv'
-    L2FileName = 'StitchedData/L2.csv'
-    L3FileName = 'StitchedData/L3.csv'
-    with open(L1FileName, 'a') as f:
-        L1Data.to_csv(f, header=False)
+    with open(allDataFileName, 'a') as f:
+        allData.to_csv(f, header=False)
 
-    with open(L2FileName, 'a') as f:
-        L2Data.to_csv(f, header=False)
 
-    with open(L3FileName, 'a') as f:
-        L3Data.to_csv(f, header=False)
-
-    L1Complete = pd.read_csv(L1FileName)
-    L1Complete.drop_duplicates(subset=None, inplace=True)
-    df.to_csv(L1FileName)
-
-    L2Complete = pd.read_csv(L2FileName)
-    L2Complete.drop_duplicates(subset=None, inplace=True)
-    df.to_csv(L2FileName)
-
-    L3Complete = pd.read_csv(L3FileName)
-    L3Complete.drop_duplicates(subset=None, inplace=True)
-    df.to_csv(L3FileName)
+    allDataDuplicates = pd.read_csv(allDataFileName, skiprows=10)
+    allDataDuplicates.drop_duplicates(subset=None, inplace=True)
+    df.to_csv(allDataFileName)
 
     return None
 
@@ -585,10 +569,11 @@ def loopFiles():
     for fileName in fileNames:
 
         # Remove the last two lines from each file, because the last line often has an error and isn't completed.
-        originalFile = pd.read_csv(fileName, skipfooter = 1)
-        originalFile.to_csv(fileName)
+        lines = open(fileName, 'r').readlines()
+        del lines[-1]
+        open(fileName, 'w').writelines(lines)
 
-        L1data, L2data, L3data, dateData = importMainData(fileName)
+        L1data, L2data, L3data, dateData, allData = importMainData(fileName)
 
         importAverageParams(L1data, L2data, L3data, dateData)
 
@@ -599,7 +584,7 @@ def loopFiles():
         importKWHours(L1data, L2data, L3data, dateData)
 
 
-        archive(fileName, L1data, L2data, L3data, dateData)
+        archive(fileName, allData)
 
     return None
 
