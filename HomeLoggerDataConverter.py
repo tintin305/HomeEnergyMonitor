@@ -545,7 +545,7 @@ def archive(fileName, allData):
         allData.to_csv(f, header=False)
 
 
-    allDataDuplicates = pd.read_csv(allDataFileName, skiprows=10)
+    allDataDuplicates = pd.read_csv(allDataFileName, skiprows=10, dtype=None)
     allDataDuplicates.drop_duplicates(subset=None, inplace=True)
     allDataDuplicates.to_csv(allDataFileName)
 
