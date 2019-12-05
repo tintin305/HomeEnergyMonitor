@@ -537,13 +537,8 @@ def importKWHours(L1data, L2data, L3data, dateData):
 
 def archive(fileName, allData):
 
-    time = datetime.datetime.now()
-
-    datedFilename = fileName[:-4] + '-ConvertedDate-' + str(time) + '.csv'
-    shutil.move(fileName, ('OldData/' + datedFilename))
 
     # This creates a master CSV file with all of the data.
-
     allDataFileName = 'Stitched/AllData.csv'
 
     with open(allDataFileName, 'a') as f:
@@ -552,7 +547,12 @@ def archive(fileName, allData):
 
     allDataDuplicates = pd.read_csv(allDataFileName, skiprows=10)
     allDataDuplicates.drop_duplicates(subset=None, inplace=True)
-    df.to_csv(allDataFileName)
+    allDataDuplicates.to_csv(allDataFileName)
+
+    time = datetime.datetime.now()
+
+    datedFilename = fileName[:-4] + '-ConvertedDate-' + str(time) + '.csv'
+    shutil.move(fileName, ('OldData/' + datedFilename))
 
     return None
 
