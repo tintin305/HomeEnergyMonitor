@@ -12,17 +12,17 @@ timeVec = data['Timestamp'].to_numpy()
 timeVec = list(range(0, len(data)))
 
 
-inputPower = data['Power (Wm) - sid = 695907 (Input)'].to_numpy()
-outputPower = data['Power (Wm) - sid = 809799 (Output)'].to_numpy()
-print(inputPower)
+inputPower = data['Power (Wm) - sid = 809799 (Input)'].to_numpy()
+outputPower = data['Power (Wm) - sid = 695907 (Output)'].to_numpy()
+
 # Input power
 plt.plot(timeVec, inputPower)
-plt.show()
+# plt.show()
 
 
 # Output power
 plt.plot(timeVec, outputPower)
-plt.show()
+# plt.show()
 
 
 diff = np.subtract(outputPower, inputPower)
@@ -30,7 +30,7 @@ diff = diff[np.logical_not(np.isnan(diff))]
 np.savetxt('Diff.csv', diff, delimiter=',')
 
 plt.plot(timeVec, diff)
-plt.show()
+# plt.show()
 
 data['Timestamp'] = pd.to_datetime(data['Timestamp'])
 dateDiff = data['Timestamp'].iloc[-1] - data['Timestamp'].iloc[0]
@@ -52,3 +52,9 @@ print('Energy generated over period of ' + str(diffHours/24) + ' days is: ' + st
 
 averageDailyGeneration = energy / (diffHours/24)
 print('Average daily generation: ' + str(averageDailyGeneration) + ' kWh')
+
+
+totalEnergyGeneration = (summedDiff * (timeVec[-1] / 60)) / (10**3)
+dailyEnergyGeneration = (totalEnergyGeneration) / (timeVec[-1] / (60 * 24))
+
+print(dailyEnergyGeneration)
